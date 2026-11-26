@@ -1,6 +1,11 @@
 package main
 
-
+import (
+	"log"
+	"meteo/helpers"
+	"meteo/routes"
+	"net/http"
+)
 
 func main() {
 	helpers.LoadTemplates()

@@ -1,11 +1,15 @@
+{{define "error"}}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Erreur {{.Code}} – Pokédex</title>
+  <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-  
+  <h1>Erreur {{.Code}}</h1>
+  <p>{{.Message}}</p>
+  <a href="/">← Retour à l'accueil</a>
 </body>
 </html>
+{{end}}

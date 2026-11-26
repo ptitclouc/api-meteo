@@ -3,31 +3,38 @@ package controllers
 import (
 	"errors"
 	"log"
+	"meteo/api"
+	"meteo/helpers"
+	"meteo/models"
+	"meteo/services"
 	"net/http"
-
-	"pokedex/helpers"
-	"pokedex/models"
-	"pokedex/services"
 )
 
-// ListPokemon affiche la liste des Pokémon de la première génération.
-func ListPokemon(w http.ResponseWriter, r *http.Request) {
-	pokemons, err := services.GetFirstGeneration()
+func ListVille(w http.ResponseWriter, r *http.Request) {
+	villes, err := api.GetListeCommune()
 	if err != nil {
 		renderErrorSevice(w, err)
 		return
 	}
-	helpers.Render(w, http.StatusOK, "list", pokemons)
+	helpers.Render(w, http.StatusOK, "list", villes)
 }
 
-// ShowPokemon affiche la fiche du Pokémon dont l'identifiant est dans l'URL.
-func ShowPokemon(w http.ResponseWriter, r *http.Request) {
-	pokemon, err := services.GetPokemon(r.PathValue("id"))
+func ShowCommune(w http.ResponseWriter, r *http.Request) {
+	commune, err := services.GetCommune(r.PathValue("id"))
 	if err != nil {
 		renderErrorSevice(w, err)
 		return
 	}
-	helpers.Render(w, http.StatusOK, "pokemon", pokemon)
+	helpers.Render(w, http.StatusOK, "commune", commune)
+}
+
+func ShowMeteo(w http.ResponseWriter, r *http.Request) {
+	meteo, err := services.GetMeteo(r.PathValue("id"))
+	if err != nil {
+		renderErrorSevice(w, err)
+		return
+	}
+	helpers.Render(w, http.StatusOK, "meteo", meteo)
 }
 
 // NotFound affiche la page 404 pour toute URL inconnue du site.

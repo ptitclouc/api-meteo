@@ -1,9 +1,8 @@
 package routes
 
 import (
+	"meteo/controllers"
 	"net/http"
-
-	"pokedex/controllers"
 )
 
 // MainRouter crée le routeur principal et y ajoute toutes les routes du site.
