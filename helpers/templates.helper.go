@@ -4,14 +4,17 @@ import (
 	"bytes"
 	"html/template"
 	"log"
+	"meteo/api"
 	"net/http"
 )
 
 var templates *template.Template
 
 // LoadTemplates charge tous les templates une seule fois, au démarrage.
+// Les fonctions (icone) doivent être déclarées AVANT le parsing des fichiers.
 func LoadTemplates() {
-	templates = template.Must(template.ParseGlob("templates/*.html"))
+	funcs := template.FuncMap{"icone": api.Icone}
+	templates = template.Must(template.New("").Funcs(funcs).ParseGlob("templates/*.html"))
 }
 
 // Render exécute le template dans un buffer, puis envoie la page et son code.

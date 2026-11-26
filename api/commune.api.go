@@ -7,21 +7,22 @@ import (
 	"meteo/models"
 	"net"
 	"net/http"
+	"net/url"
 	"time"
 )
 
 const (
-	baseURL   = "https://geo.api.gouv.fr/communes?fields=code,nom,centre"
-	userAgent = "Météo"
+	userAgent  = "meteo-app"
+	communeURL = "https://geo.api.gouv.fr"
 )
 
 var client = &http.Client{
 	Timeout: 5 * time.Second,
 }
 
-func Get(endpoint string, dest any) error {
+func Get(Path string, dest any) error {
 	// 1. Préparer la requête : méthode, URL et corps (nil pour un GET).
-	request, err := http.NewRequest(http.MethodGet, baseURL+endpoint, nil)
+	request, err := http.NewRequest(http.MethodGet, Path, nil)
 	if err != nil {
 		return fmt.Errorf("création de la requête : %w", err)
 	}
@@ -61,14 +62,18 @@ func Get(endpoint string, dest any) error {
 	return nil
 }
 
-func GetListeCommune() ([]models.Commune, error) {
-	var commune []models.Commune
-	err := Get("/commune", &commune)
-	return commune, err
+func GetListeCommune(nom string) ([]models.Commune, error) {
+	var communes []models.Commune
+	path := fmt.Sprintf("%s/communes?nom=%s&fields=nom,code,centre&boost=population&limit=20",
+		communeURL, url.QueryEscape(nom))
+	err := Get(path, &communes)
+	return communes, err
 }
 
-func GetCommune(id int) (models.Commune, error) {
+func GetCommune(code string) (models.Commune, error) {
 	var commune models.Commune
-	err := Get(fmt.Sprintf("/commune/%d", id), &commune)
+	path := fmt.Sprintf("%s/communes/%s?fields=nom,code,centre",
+		communeURL, url.PathEscape(code))
+	err := Get(path, &commune)
 	return commune, err
 }

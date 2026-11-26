@@ -1,11 +1,16 @@
 {{define "meteo"}}
 <!DOCTYPE html>
 <html lang="fr">
-<head><meta charset="UTF-8"><title>Météo</title></head>
+<head>
+  <meta charset="UTF-8">
+  <title>Météo à {{.Nom}}</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
 <body>
   <a href="/">← Retour</a>
+  <h1>Météo à {{.Nom}}</h1>
   {{range $i, $d := .Journalier.Date}}
-    <p>{{$d}} {{index $.Journalier.Icones $i}}
+    <p>{{$d}} {{icone (index $.Journalier.Code $i)}}
     {{index $.Journalier.TempMin $i}}{{$.Unites.TMinDeg}} /
     {{index $.Journalier.TempMax $i}}{{$.Unites.TMaxDeg}}</p>
   {{end}}

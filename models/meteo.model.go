@@ -19,8 +19,8 @@ type Meteo struct {
 
 type semaine struct {
 	Date    []string `json: "time"`
-	TempMax []string `json: "temperature_2m_max"`
-	TempMin []string `json: "temperature_2m_min"`
+	TempMax []float32 `json: "temperature_2m_max"`
+	TempMin []float32`json: "temperature_2m_min"`
 	Icone   []string `json: "weather_code"`
 }
 

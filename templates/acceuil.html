@@ -1,10 +1,25 @@
 {{define "list"}}
 <!DOCTYPE html>
 <html lang="fr">
-<head><meta charset="UTF-8"><title>Météo</title></head>
+<head>
+  <meta charset="UTF-8">
+  <title>Météo</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
 <body>
-  <h1>Villes</h1>
-  <ul>{{range .}}<li><a href="/ville/{{.Code}}">{{.Name}}</a></li>{{end}}</ul>
+  <h1>Météo ⛅</h1>
+  <form method="GET" action="/">
+    <input type="search" name="q" value="{{.Q}}" placeholder="Nom d'une ville" required autofocus>
+    <button type="submit">Rechercher</button>
+  </form>
+
+  {{if .Q}}
+    {{if .Villes}}
+      <ul>{{range .Villes}}<li><a href="/ville/{{.Code}}">{{.Name}} ({{.Code}})</a></li>{{end}}</ul>
+    {{else}}
+      <p>Aucune ville trouvée.</p>
+    {{end}}
+  {{end}}
 </body>
 </html>
 {{end}}

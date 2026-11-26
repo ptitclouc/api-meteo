@@ -8,15 +8,26 @@ import (
 	"meteo/models"
 	"meteo/services"
 	"net/http"
+	"strings"
 )
 
 func ListVille(w http.ResponseWriter, r *http.Request) {
-	villes, err := api.GetListeCommune()
-	if err != nil {
-		renderErrorSevice(w, err)
-		return
+	q := strings.TrimSpace(r.URL.Query().Get("q"))
+
+	var villes []models.Commune
+	if q != "" {
+		var err error
+		villes, err = api.GetListeCommune(q)
+		if err != nil {
+			renderErrorSevice(w, err)
+			return
+		}
 	}
-	helpers.Render(w, http.StatusOK, "list", villes)
+
+	helpers.Render(w, http.StatusOK, "list", struct {
+		Q      string
+		Villes []models.Commune
+	}{q, villes})
 }
 
 func ShowMeteo(w http.ResponseWriter, r *http.Request) {
@@ -39,9 +50,9 @@ func renderErrorSevice(w http.ResponseWriter, err error) {
 	case errors.Is(err, models.ErrNotFound):
 		helpers.RenderError(w, http.StatusNotFound, "Cette commune n'existe pas")
 	case errors.Is(err, models.ErrBadRequest):
-		helpers.RenderError(w, http.StatusBadRequest, "invalide.")
+		helpers.RenderError(w, http.StatusBadRequest, "Invalide.")
 	case errors.Is(err, models.ErrTimeout), errors.Is(err, models.ErrUnavailable):
-		log.Println("API:", err)
+		log.Println("API Tyradex :", err)
 		helpers.RenderError(w, http.StatusServiceUnavailable, "Service momentanément indisponible.")
 	default:
 		log.Println("Erreur inattendue :", err)
