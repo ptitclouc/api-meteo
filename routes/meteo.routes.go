@@ -7,6 +7,5 @@ import (
 
 func MeteoRoutes(mux *http.ServeMux) {
 	mux.HandleFunc("GET /{$}", controllers.ListVille)
-	mux.HandleFunc("GET /ville", controllers.ShowCommune)
 	mux.HandleFunc("GET /ville/{id}", controllers.ShowMeteo)
 }

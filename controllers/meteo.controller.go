@@ -19,15 +19,6 @@ func ListVille(w http.ResponseWriter, r *http.Request) {
 	helpers.Render(w, http.StatusOK, "list", villes)
 }
 
-func ShowCommune(w http.ResponseWriter, r *http.Request) {
-	commune, err := services.GetCommune(r.PathValue("id"))
-	if err != nil {
-		renderErrorSevice(w, err)
-		return
-	}
-	helpers.Render(w, http.StatusOK, "commune", commune)
-}
-
 func ShowMeteo(w http.ResponseWriter, r *http.Request) {
 	meteo, err := services.GetMeteo(r.PathValue("id"))
 	if err != nil {
@@ -46,11 +37,11 @@ func NotFound(w http.ResponseWriter, r *http.Request) {
 func renderErrorSevice(w http.ResponseWriter, err error) {
 	switch {
 	case errors.Is(err, models.ErrNotFound):
-		helpers.RenderError(w, http.StatusNotFound, "Ce Pokémon n'existe pas.")
+		helpers.RenderError(w, http.StatusNotFound, "Cette commune n'existe pas")
 	case errors.Is(err, models.ErrBadRequest):
-		helpers.RenderError(w, http.StatusBadRequest, "Numéro de Pokémon invalide.")
+		helpers.RenderError(w, http.StatusBadRequest, "invalide.")
 	case errors.Is(err, models.ErrTimeout), errors.Is(err, models.ErrUnavailable):
-		log.Println("API Tyradex :", err)
+		log.Println("API:", err)
 		helpers.RenderError(w, http.StatusServiceUnavailable, "Service momentanément indisponible.")
 	default:
 		log.Println("Erreur inattendue :", err)

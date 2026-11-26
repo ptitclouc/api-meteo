@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"meteo/models"
 	"net"
 	"net/http"
-	"meteo/models"
 	"time"
 )
 
@@ -19,7 +19,7 @@ var client = &http.Client{
 	Timeout: 5 * time.Second,
 }
 
-func get(endpoint string, dest any) error {
+func Get(endpoint string, dest any) error {
 	// 1. Préparer la requête : méthode, URL et corps (nil pour un GET).
 	request, err := http.NewRequest(http.MethodGet, baseURL+endpoint, nil)
 	if err != nil {
@@ -63,12 +63,12 @@ func get(endpoint string, dest any) error {
 
 func GetListeCommune() ([]models.Commune, error) {
 	var commune []models.Commune
-	err := get("/commune", &commune)
+	err := Get("/commune", &commune)
 	return commune, err
 }
 
 func GetCommune(id int) (models.Commune, error) {
 	var commune models.Commune
-	err := get(fmt.Sprintf("/commune/%d", id), &commune)
+	err := Get(fmt.Sprintf("/commune/%d", id), &commune)
 	return commune, err
 }
