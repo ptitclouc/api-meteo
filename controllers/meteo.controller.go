@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"errors"
+	"fmt"
 	"log"
 	"meteo/api"
 	"meteo/helpers"
@@ -31,11 +32,16 @@ func ListVille(w http.ResponseWriter, r *http.Request) {
 }
 
 func ShowMeteo(w http.ResponseWriter, r *http.Request) {
-	meteo, err := services.GetMeteo(r.PathValue("id"))
+	id := r.PathValue("id")
+	fmt.Printf("ID reçu : '%s'\n", id) // Vérifie ce qui est extrait de l'URL
+
+	meteo, err := services.GetMeteo(id)
 	if err != nil {
+		fmt.Printf("Erreur détaillée : %+v\n", err) // Affiche la vraie erreur
 		renderErrorSevice(w, err)
 		return
 	}
+
 	helpers.Render(w, http.StatusOK, "meteo", meteo)
 }
 

@@ -11,6 +11,7 @@ type Coordonnee struct {
 }
 
 type Meteo struct {
+	Nom        string     `json:"-"`
 	Latitude   float32    `json: "latitude"`
 	Longitude  float32    `json: "longitude"`
 	Journalier semaine    `json: "daily"`
@@ -18,10 +19,10 @@ type Meteo struct {
 }
 
 type semaine struct {
-	Date    []string `json: "time"`
+	Date    []string  `json: "time"`
 	TempMax []float32 `json: "temperature_2m_max"`
-	TempMin []float32`json: "temperature_2m_min"`
-	Icone   []string `json: "weather_code"`
+	TempMin []float32 `json: "temperature_2m_min"`
+	Icone   []string  `json: "weather_code"`
 }
 
 type UnitésUtil struct {

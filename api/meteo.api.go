@@ -5,11 +5,15 @@ import (
 	"meteo/models"
 )
 
+const (
+	meteoURL = "https://api.open-meteo.com"
+)
+
 func GetMeteo(Latitude float32, Longitude float32) (models.Meteo, error) {
-	var MeteoCommune models.Meteo
-	Path := fmt.Sprintf("https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&daily=temperature_2m_max,temperature_2m_min,weather_code&timezone=auto&forecast", Latitude, Longitude)
-	err := Get(Path, MeteoCommune)
-	return MeteoCommune, err
+	var meteo models.Meteo
+	Path := fmt.Sprintf("%s/v1/forecast?latitude=%f&longitude=%f&daily=temperature_2m_max,temperature_2m_min,weather_code&timezone=auto", meteoURL, Latitude, Longitude)
+	err := Get(Path, &meteo)
+	return meteo, err
 }
 
 func Icone(codeVMO int) string {

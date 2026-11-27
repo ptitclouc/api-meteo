@@ -72,8 +72,7 @@ func GetListeCommune(nom string) ([]models.Commune, error) {
 
 func GetCommune(code string) (models.Commune, error) {
 	var commune models.Commune
-	path := fmt.Sprintf("%s/communes/%s?fields=nom,code,centre",
-		communeURL, url.PathEscape(code))
+	path := fmt.Sprintf("%s/communes/%s?fields=nom,code,centre", communeURL, url.PathEscape(code))
 	err := Get(path, &commune)
 	return commune, err
 }

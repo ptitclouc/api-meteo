@@ -17,6 +17,8 @@ func GetMeteo(code string) (models.Meteo, error) {
 	if err != nil {
 		return models.Meteo{}, err
 	}
-	
+
+	meteo.Nom = c.Name
+
 	return meteo, nil
 }
